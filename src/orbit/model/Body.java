@@ -1,8 +1,13 @@
+package orbit.model;
+
 import java.awt.Color;
+
+import orbit.PolarMath;
+import orbit.orbit.CartesianOrbit;
+import orbit.orbit.Orbit;
 
 public class Body {
 
-	public static final double G = 1;
 	public static final double FIELD_RESISTANCE = 0;
 
 	private double mass;
@@ -122,7 +127,7 @@ public class Body {
 			double r = distance(other);
 			if (r < 10)
 				return;
-			double f = (G * /* mass **/ other.mass * time) / (r * r);
+			double f = (PolarMath.G * other.mass * time) / (r * r);
 			double ang = Math.atan2(other.y - y, other.x - x);
 			double dx = velocity * Math.cos(angle) + f * Math.cos(ang);
 			double dy = velocity * Math.sin(angle) + f * Math.sin(ang);
@@ -132,7 +137,7 @@ public class Body {
 	}
 
 	public Orbit computeOrbit(Body parent) {
-		return new Orbit(parent, this);
+		return new CartesianOrbit(parent, this);
 	}
 
 	public double getDirectionSquared() {
@@ -143,7 +148,6 @@ public class Body {
 	public double[] getDirectionVector() {
 		return new double[] { velocity * Math.cos(angle), velocity * Math.sin(angle) };
 	}
-
 
 	public double angleFromOrigin() {
 		return Math.atan2(y, x);

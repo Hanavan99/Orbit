@@ -1,3 +1,4 @@
+package orbit.model;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -5,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
+
+import orbit.orbit.Orbit;
 
 public class JSpace extends JComponent {
 
@@ -64,20 +67,16 @@ public class JSpace extends JComponent {
 			double cy = body.getY();
 			double r = Math.log(body.getMass()) * 4 + 10;
 			
-			g.setColor(Color.CYAN);
+			g.setColor(Color.MAGENTA);
 			double lastx = 0;
 			double lasty = 0;
 			
-			//System.out.println(dtheta);
 			Orbit orbit = body.computeOrbit(refOrbit);
-			double dtheta = orbit.getTrueAnomaly();
 			for (double theta = 0; theta < 2 * Math.PI; theta += Math.PI / 128) {
-				double atan = Math.atan2(cy, cx);
-				double dist = orbit.getDistanceFromParent(theta + dtheta - atan);
+				double[] pos = orbit.getPositionRelativeToParent(theta);
 				
-				double x1 = dist * Math.cos(theta);
-				double y1 = dist * Math.sin(theta);
-				//g.fillRect((int) (x1) - 5, (int) (y1) - 5, 10, 10);
+				double x1 = pos[0];
+				double y1 = pos[1];
 				if (theta != 0) {
 					g.drawLine((int) lastx, (int) lasty, (int) x1, (int) y1);
 				}
@@ -86,10 +85,6 @@ public class JSpace extends JComponent {
 			}
 			g.setColor(body.getColor());
 			g.fillOval((int) (cx - r / 2), (int) (cy - r / 2), (int) r, (int) r);
-			/*
-			 * g.drawString(body.getName(), (int) cx -
-			 * (g.getFontMetrics().stringWidth(body.getName()) / 2), (int) (cy - r - 5));
-			 */
 		}
 	}
 

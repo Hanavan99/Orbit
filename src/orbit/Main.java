@@ -1,3 +1,5 @@
+package orbit;
+
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -5,13 +7,20 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import orbit.model.Body;
+import orbit.model.JSpace;
+import orbit.model.PolarBody;
+import orbit.orbit.PolarOrbit;
+
 public class Main {
 
 	public static void main(String[] args) {
 		JSpace space = new JSpace();
 		space.getSpace().addBody(new Body(10000, 0, 0, 0, 0, "Sun", Color.YELLOW, true));
-		//space.getSpace().addBody(new Body(5000, 30, 0, Math.PI / 2, 7, "Sun 1", Color.YELLOW));
-		//space.getSpace().addBody(new Body(5000, -30, 0, -Math.PI / 2, 7, "Sun 2", Color.YELLOW));
+		// space.getSpace().addBody(new Body(5000, 30, 0, Math.PI / 2, 7, "Sun 1",
+		// Color.YELLOW));
+		// space.getSpace().addBody(new Body(5000, -30, 0, -Math.PI / 2, 7, "Sun 2",
+		// Color.YELLOW));
 		space.getSpace().addBody(new Body(10, 200, 0, Math.PI / 2, 7, "Mercury", Color.GRAY));
 		space.getSpace().addBody(new Body(10, 400, 0, Math.PI / 2, 5, "Venus", Color.GRAY));
 		space.getSpace().addBody(new Body(10, 600, 0, Math.PI / 2, 4.1, "Earth", Color.GREEN));
@@ -19,9 +28,12 @@ public class Main {
 		space.getSpace().addBody(new Body(10, 800, 0, Math.PI / 2, 3.5, "Mars", Color.ORANGE));
 		space.getSpace().addBody(new Body(100, 1200, 0, Math.PI / 2, 3, "Jupiter", Color.ORANGE));
 		space.getSpace().addBody(new Body(0.01, 3000, 0, Math.PI / 2, 0.5, "Comet", Color.WHITE));
-		//space.setObjectTracked("Earth");
-		
-		//space.getSpace().addBody(new Body(1000000, 0, 0, 0, 0, "BLACK HOLE", Color.DARK_GRAY, true));
+		space.getSpace().addBody(new PolarBody(new PolarOrbit(space.getSpace().getBody("Sun"), null, 0.0167086, 1,
+				Math.toRadians(1.578690), Math.toRadians(174.9), Math.toRadians(288.1), 0)));
+		// space.setObjectTracked("Earth");
+
+		// space.getSpace().addBody(new Body(1000000, 0, 0, 0, 0, "BLACK HOLE",
+		// Color.DARK_GRAY, true));
 
 		JFrame frame = new JFrame("Space");
 		frame.setSize(500, 500);
@@ -42,11 +54,11 @@ public class Main {
 					space.zoom(0.9);
 					break;
 				case KeyEvent.VK_G:
-					double velo = space.getSpace().getBody("Jupiter").getVelocity(); 
+					double velo = space.getSpace().getBody("Jupiter").getVelocity();
 					space.getSpace().getBody("Jupiter").setVelocity(velo - 0.01);
 					break;
 				case KeyEvent.VK_H:
-					double velo2 = space.getSpace().getBody("Jupiter").getVelocity(); 
+					double velo2 = space.getSpace().getBody("Jupiter").getVelocity();
 					space.getSpace().getBody("Jupiter").setVelocity(velo2 + 0.01);
 					break;
 				}
